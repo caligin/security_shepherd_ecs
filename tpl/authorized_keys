@@ -1,0 +1,3 @@
+# this file will contained the public ssh keys authorized to log into the bastion machine.
+# please refer to the section AUTHORIZED_KEYS FILE FORMAT of the sshd(8) manpage for the format
+# spoiler: one public ssh key per line
