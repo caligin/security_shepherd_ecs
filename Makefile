@@ -68,7 +68,7 @@ $(app_build_dir)server.xml: server.xml
 
 app: $(app_build_dir)Dockerfile $(app_build_dir)ROOT.war $(app_build_dir)database.properties $(app_build_dir)server.xml
 	docker build -t $(app_image_name) $(app_build_dir)
-	docker tag $(app_image_name):latest $(app_repo_prefix)$(app_image_name):latest
+	docker tag $(app_image_name):latest $(docker_repo_prefix)$(app_image_name):latest
 
 clean:
 	rm -rf $(bastion_build_dir)
