@@ -22,7 +22,7 @@ init: $(src_files)
 $(src_dir):
 	mkdir -p $(src_dir)
 
-$(src_dir)%: $(tpl_dir)% $(src_dir)
+$(src_dir)%: $(tpl_dir)% | $(src_dir)
 	cp $< $@
 
 $(build_dir):
