@@ -1,0 +1,16 @@
+version: "2"
+services:
+  bastion:
+    build: build/bastion/
+    links:
+       - app:shepherd.local
+    ports:
+       - "6022:22"
+  app:
+    build: build/app/
+    links:
+      - database:mysql
+  database:
+    build: build/database/
+    environment:
+      - MYSQL_ROOT_PASSWORD=CowSaysMoo
