@@ -34,8 +34,8 @@ $(build_dir)%/:
 $(build_dir)%/Dockerfile: %.Dockerfile $(build_dir)%/
 	cp $< $@
 
-$(bastion_build_dir)authorized_keys:
-	cp $(src_dir)authorized_keys $@
+$(bastion_build_dir)authorized_keys: $(src_dir)authorized_keys
+	cp $< $@
 
 bastion: $(bastion_build_dir)Dockerfile $(bastion_build_dir)authorized_keys
 	docker build -t $(bastion_image_name) $(bastion_build_dir)
