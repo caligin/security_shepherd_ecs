@@ -14,8 +14,10 @@ package_download_url:=https://github.com/OWASP/SecurityShepherd/releases/downloa
 package_name:=owaspSecurityShepherd_V3.0.Manual.Pack.zip
 
 
-.PHONY: clean distclean nuke init bastion database app
+.PHONY: clean containers distclean nuke init bastion database app
 .PRECIOUS: $(bastion_build_dir) $(database_build_dir) $(app_build_dir)
+
+containers: bastion database app
 
 init: $(src_files)
 
