@@ -9,7 +9,7 @@ services:
   app:
     build: build/app/
     links:
-      - database:mysql
+      - database:database
   database:
     build: build/database/
     environment:

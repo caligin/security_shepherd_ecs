@@ -1,0 +1,21 @@
+version: "2"
+services:
+  bastion:
+    image: caligin/shepherd_bastion
+    fip: 209.177.93.196
+    links:
+      - app:shepherd
+    ports:
+      - "6022:22"
+  app:
+    image: caligin/shepherd_app
+    links:
+      - database:database
+    ports:
+      - 80
+  database:
+    image: caligin/shepherd_database
+    environment:
+      - MYSQL_ROOT_PASSWORD=CowSaysMoo
+    ports:
+      - 3306
