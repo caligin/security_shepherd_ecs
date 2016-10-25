@@ -1,8 +1,15 @@
 version: "2"
 services:
+  gateway:
+    image: caligin/shepherd_gateway
+    fip: 209.177.93.196
+    links:
+       - app:shepherd
+    ports:
+       - "80:80"
+       - "443:443"
   bastion:
     image: caligin/shepherd_bastion
-    fip: 209.177.93.196
     links:
       - app:shepherd
     ports:

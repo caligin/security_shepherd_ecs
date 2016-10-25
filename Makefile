@@ -9,15 +9,17 @@ database_build_dir:=build/database/
 database_image_name:=shepherd_database
 app_build_dir:=build/app/
 app_image_name:=shepherd_app
+gateway_build_dir:=build/gateway/
+gateway_image_name:=shepherd_gateway
 docker_repo_prefix?=localhost/
 package_download_url:=https://github.com/OWASP/SecurityShepherd/releases/download/v3.0/owaspSecurityShepherd_V3.0.Manual.Pack.zip
 package_name:=owaspSecurityShepherd_V3.0.Manual.Pack.zip
 
 
-.PHONY: clean containers distclean nuke init bastion database app
-.PRECIOUS: $(bastion_build_dir) $(database_build_dir) $(app_build_dir)
+.PHONY: clean containers distclean nuke init bastion database app gateway
+.PRECIOUS: $(bastion_build_dir) $(database_build_dir) $(app_build_dir) $(gateway_build_dir)
 
-containers: bastion database app
+containers: bastion database app gateway
 
 init: $(src_files)
 
@@ -35,6 +37,22 @@ $(build_dir)%/:
 
 $(build_dir)%/Dockerfile: %.Dockerfile $(build_dir)%/
 	cp $< $@
+
+$(gateway_build_dir)dhparam.pem:
+	openssl dhparam -out $@ 2048
+
+$(gateway_build_dir)server.bundle: src/server.pem
+	cp $< $@
+
+$(gateway_build_dir)server.key: src/server.key
+	cp $< $@
+
+$(gateway_build_dir)nginx.conf: nginx.conf
+	cp $< $@
+
+gateway: $(gateway_build_dir)Dockerfile $(gateway_build_dir)dhparam.pem $(gateway_build_dir)server.bundle $(gateway_build_dir)server.key $(gateway_build_dir)nginx.conf
+	docker build -t $(gateway_image_name) $(gateway_build_dir)
+	docker tag $(gateway_image_name):latest $(docker_repo_prefix)$(gateway_image_name):latest
 
 $(bastion_build_dir)authorized_keys: $(src_dir)authorized_keys
 	cp $< $@
